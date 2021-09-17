@@ -1,5 +1,7 @@
 package unibl.etf.pisio.trelloproject.core.util;
 
+import java.util.Random;
+
 public class IdGeneratorUtil {
     private static char[] charArray = {
             'a', 'b', 'c', 'd', 'e', 'f',
@@ -12,7 +14,7 @@ public class IdGeneratorUtil {
         char[] id = new char[idLength];
 
         for (int i = 0; i < idLength; ++i) {
-            int random = (int) Math.random() * idLength;
+            int random = (new Random()).nextInt(charArray.length);
             id[i] = charArray[random];
         }
         return new String(id);

@@ -1,8 +1,11 @@
 package unibl.etf.pisio.trelloproject.core.models.dto;
 
+import lombok.Data;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 
+@Data
 public class MemberDTO {
     private String id;
     private String username;

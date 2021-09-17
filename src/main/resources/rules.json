@@ -1,0 +1,44 @@
+{
+  "rules": [
+    {
+      "methods": ["GET"],
+      "pattern": "/state",
+      "roles": [
+        "ADMIN",
+        "USER"
+      ]
+    },
+    {
+      "methods": [],
+      "pattern": "/organisations/**",
+      "roles": [
+        "ADMIN",
+        "USER"
+      ]
+    },
+    {
+      "methods": [],
+      "pattern": "/members/**",
+      "roles": [
+        "ADMIN",
+        "USER"
+      ]
+    },
+    {
+      "methods": [],
+      "pattern": "/boards/**",
+      "roles": [
+        "ADMIN",
+        "USER"
+      ]
+    },
+    {
+      "methods": [],
+      "pattern": "/lists/**",
+      "roles": [
+        "ADMIN",
+        "USER"
+      ]
+    }
+  ]
+}

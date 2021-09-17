@@ -9,10 +9,14 @@ import unibl.etf.pisio.trelloproject.core.services.IBoardService;
 
 
 @RestController
-@RequestMapping("${APIv}/boards")
-public class BoardController extends CrudController<String, BoardRequest, BoardDTO> {
+@RequestMapping("/boards")
+public class BoardController {
 
-    public BoardController(IBoardService _boardService){
-        super(_boardService, BoardDTO.class);
+    private final IBoardService boardService;
+
+    public BoardController(IBoardService _boardService) {
+        boardService = _boardService;
     }
+
+
 }

@@ -2,25 +2,32 @@ package unibl.etf.pisio.trelloproject.core.models.entities;
 
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import unibl.etf.pisio.trelloproject.core.base.BaseEntity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @Data
 @Entity
 @Table(name = "card")
+@EntityListeners(AuditingEntityListener.class)
 public class CardEntity implements BaseEntity<String> {
     @Id
     @Column(name = "id", nullable = false, length = 24)
     private String id;
     @Basic
-    @Column(name = "name", nullable = false, length = -1)
+    @Column(name = "cardName", nullable = false, length = -1)
     private String name;
     @Basic
-    @Column(name = "desc", nullable = true, length = -1)
+    @Column(name = "cardDescription", nullable = true, length = -1)
     private String desc;
     @Basic
     @Column(name = "url", nullable = false, length = -1)
@@ -38,7 +45,7 @@ public class CardEntity implements BaseEntity<String> {
     @Column(name = "dateLastActivity", nullable = true)
     private Timestamp dateLastActivity;
     @Basic
-    @Column(name = "pos", nullable = false)
+    @Column(name = "position", nullable = false)
     private Integer pos;
     @Basic
     @Column(name = "shortLink", nullable = true, length = -1)
@@ -58,5 +65,19 @@ public class CardEntity implements BaseEntity<String> {
     @OneToMany(mappedBy = "card")
     @JsonIgnore
     private List<MemberCardEntity> membercards;
+    @Column(name = "created_at", updatable = false)
+    @CreatedDate
+    private Date createdAt;
+    @Column(name = "updated_at")
+    @LastModifiedDate
+    private Date modifiedAt;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @CreatedBy
+    @JoinColumn(name = "created_by", referencedColumnName = "id", updatable = false)
+    private MemberEntity createdBy;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @LastModifiedBy
+    @JoinColumn(name = "updated_by", referencedColumnName = "id")
+    private MemberEntity updatedBy;
 
 }

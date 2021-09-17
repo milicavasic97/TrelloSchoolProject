@@ -1,7 +1,6 @@
 package unibl.etf.pisio.trelloproject.api.base;
 
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import unibl.etf.pisio.trelloproject.core.base.ICrudService;
@@ -32,7 +31,7 @@ public abstract class CrudController<ID extends Serializable, REQ, RESP> {
         return crudService.findById(id, responseClass);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable ID id){
         crudService.delete(id);
     }

@@ -18,7 +18,7 @@ public class CommentEntity implements BaseEntity<String> {
     @Column(name = "text", nullable = false, length = -1)
     private String text;
     @Basic
-    @Column(name = "date", nullable = false)
+    @Column(name = "creationDate", nullable = false)
     private Timestamp date;
     @ManyToOne
     @JoinColumn(name = "idCard", referencedColumnName = "id", nullable = false)

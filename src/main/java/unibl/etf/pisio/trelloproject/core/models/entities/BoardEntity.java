@@ -2,25 +2,32 @@ package unibl.etf.pisio.trelloproject.core.models.entities;
 
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import unibl.etf.pisio.trelloproject.core.base.BaseEntity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @Data
 @Entity
 @Table(name = "board")
+@EntityListeners(AuditingEntityListener.class)
 public class BoardEntity implements BaseEntity<String> {
     @Id
     @Column(name = "id", nullable = false, length = 24)
     private String id;
     @Basic
-    @Column(name = "name", nullable = false, length = 512)
+    @Column(name = "boardName", nullable = false, length = 512)
     private String name;
     @Basic
-    @Column(name = "desc", nullable = true, length = -1)
+    @Column(name = "boardDescription", nullable = true, length = -1)
     private String desc;
     @Basic
     @Column(name = "closed", nullable = true)
@@ -61,5 +68,19 @@ public class BoardEntity implements BaseEntity<String> {
     @OneToMany(mappedBy = "board")
     @JsonIgnore
     private List<TrelloListEntity> trellolists;
+    @Column(name = "created_at", updatable = false)
+    @CreatedDate
+    private Date createdAt;
+    @Column(name = "updated_at")
+    @LastModifiedDate
+    private Date modifiedAt;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @CreatedBy
+    @JoinColumn(name = "created_by", referencedColumnName = "id", updatable = false)
+    private MemberEntity createdBy;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @LastModifiedBy
+    @JoinColumn(name = "updated_by", referencedColumnName = "id")
+    private MemberEntity updatedBy;
 
 }

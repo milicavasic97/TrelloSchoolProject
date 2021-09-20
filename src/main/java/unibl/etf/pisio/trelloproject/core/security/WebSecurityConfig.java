@@ -26,6 +26,9 @@ import unibl.etf.pisio.trelloproject.core.security.models.AuthorizationRules;
 import unibl.etf.pisio.trelloproject.core.security.models.Rule;
 import unibl.etf.pisio.trelloproject.core.services.IJwtUserDetailsService;
 
+import java.util.Collection;
+import java.util.Collections;
+
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -95,7 +98,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
+        config.setAllowedOriginPatterns(Collections.singletonList("*"));
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.addAllowedMethod("PATCH");

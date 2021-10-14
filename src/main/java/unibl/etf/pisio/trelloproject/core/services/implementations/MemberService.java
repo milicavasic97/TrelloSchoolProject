@@ -1,10 +1,7 @@
 package unibl.etf.pisio.trelloproject.core.services.implementations;
 
-import org.apache.activemq.command.ActiveMQQueue;
-import org.apache.activemq.command.ActiveMQTopic;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import unibl.etf.pisio.trelloproject.api.models.requests.ChangeMemberTypeRequest;
@@ -33,9 +30,6 @@ public class MemberService extends CrudJpaService<MemberEntity, String> implemen
     private final MemberEntityRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    private final JmsTemplate jmsTemplate;
-//    @Value("${mq.topic}")
-//    private String topicName;
     @Value("${authorization.default.username:}")
     private String defaultUsername;
     @Value("${authorization.default.full-name:}")
@@ -50,21 +44,18 @@ public class MemberService extends CrudJpaService<MemberEntity, String> implemen
     private String defaultPassword;
     @Value("${authorization.default.email:}")
     private String defaultEmail;
-//    @Value("${mq.queue}")
-//    private String queueName;
 
-    public MemberService(MemberEntityRepository _repository, ModelMapper _mapper,
-                         PasswordEncoder _encoder, JmsTemplate _jmsTemplate) {
-        super(_repository, _mapper, MemberEntity.class);
-        modelMapper = _mapper;
-        repository = _repository;
-        passwordEncoder = _encoder;
-        jmsTemplate = _jmsTemplate;
+    public MemberService(ModelMapper modelMapper,
+                         MemberEntityRepository repository, PasswordEncoder passwordEncoder) {
+        super(repository, modelMapper, MemberEntity.class);
+        this.modelMapper = modelMapper;
+        this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
     public void postConstruct() {
-        if(repository.count()== 0){
+        if (repository.count() == 0) {
             MemberEntity memberEntity = new MemberEntity();
             memberEntity.setId(IdGeneratorUtil.generateId());
             memberEntity.setUsername(defaultUsername);
@@ -83,14 +74,15 @@ public class MemberService extends CrudJpaService<MemberEntity, String> implemen
     @Override
     public void signUp(SignUpRequest signUpRequest) {
         if (repository.existsByUsername(signUpRequest.getUsername()))
-            throw new ConflictException();
-        MemberEntity entity = getModelMapper().map(signUpRequest, MemberEntity.class);
+            throw new ConflictException("Username exists");
+        if (repository.existsByEmail(signUpRequest.getEmail()))
+            throw new ConflictException("Email exists");
+        MemberEntity entity = modelMapper.map(signUpRequest, MemberEntity.class);
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
-        entity.setStatus(UserStatus.REQUESTED.name());
+        entity.setStatus(UserStatus.ACTIVE.name());
+        entity.setConfirmed(true);
         entity.setMemberType(MemberType.NORMAL.name());
-        MemberDTO user = insert(entity, MemberDTO.class);
-//        jmsTemplate.convertAndSend(new ActiveMQQueue(queueName), user);
-//        jmsTemplate.convertAndSend(new ActiveMQTopic(topicName), user);
+        SignUpRequest member = insert(entity, SignUpRequest.class);
     }
 
     @Override
@@ -98,7 +90,7 @@ public class MemberService extends CrudJpaService<MemberEntity, String> implemen
         if (UserStatus.REQUESTED.equals(changeStatusRequest.getStatus()))
             throw new ForbiddenException();
         MemberEntity entity = findEntityById(id);
-        if(entity == null)
+        if (entity == null)
             throw new NotFoundException();
         entity.setStatus(changeStatusRequest.getStatus().name());
         repository.saveAndFlush(entity);
@@ -107,7 +99,7 @@ public class MemberService extends CrudJpaService<MemberEntity, String> implemen
     @Override
     public void changeMemberType(String id, ChangeMemberTypeRequest changeMemberTypeRequest) {
         MemberEntity entity = findEntityById(id);
-        if(entity == null)
+        if (entity == null)
             throw new NotFoundException();
         entity.setMemberType(changeMemberTypeRequest.getMemberType().name());
     }
@@ -123,5 +115,10 @@ public class MemberService extends CrudJpaService<MemberEntity, String> implemen
         entity.setBio(memberUpdateRequest.getBio());
         entity.setInitials(memberUpdateRequest.getInitials());
         return update(id, entity, MemberDTO.class);
+    }
+
+    @Override
+    public MemberDTO findByEmail(String email) {
+        return modelMapper.map(repository.findByEmail(email), MemberDTO.class);
     }
 }

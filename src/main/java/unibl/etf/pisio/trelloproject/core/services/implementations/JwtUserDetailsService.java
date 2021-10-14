@@ -1,11 +1,9 @@
 package unibl.etf.pisio.trelloproject.core.services.implementations;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import unibl.etf.pisio.trelloproject.core.models.dto.JwtUserDTO;
-import unibl.etf.pisio.trelloproject.core.models.entities.MemberEntity;
 import unibl.etf.pisio.trelloproject.core.models.enums.UserStatus;
 import unibl.etf.pisio.trelloproject.core.models.repositories.MemberEntityRepository;
 import unibl.etf.pisio.trelloproject.core.services.IJwtUserDetailsService;

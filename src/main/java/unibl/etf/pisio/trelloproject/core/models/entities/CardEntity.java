@@ -2,6 +2,8 @@ package unibl.etf.pisio.trelloproject.core.models.entities;
 
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -24,13 +26,13 @@ public class CardEntity implements BaseEntity<String> {
     @Column(name = "id", nullable = false, length = 24)
     private String id;
     @Basic
-    @Column(name = "cardName", nullable = false, length = -1)
+    @Column(name = "cardName", nullable = false, length = -1, unique = false)
     private String name;
     @Basic
     @Column(name = "cardDescription", nullable = true, length = -1)
     private String desc;
     @Basic
-    @Column(name = "url", nullable = false, length = -1)
+    @Column(name = "url", nullable = true, length = -1)
     private String url;
     @Basic
     @Column(name = "due", nullable = true)
@@ -43,6 +45,7 @@ public class CardEntity implements BaseEntity<String> {
     private Boolean closed;
     @Basic
     @Column(name = "dateLastActivity", nullable = true)
+    @LastModifiedDate
     private Timestamp dateLastActivity;
     @Basic
     @Column(name = "position", nullable = false)
@@ -59,10 +62,10 @@ public class CardEntity implements BaseEntity<String> {
     @ManyToOne
     @JoinColumn(name = "idList", referencedColumnName = "id", nullable = false)
     private TrelloListEntity trellolist;
-    @OneToMany(mappedBy = "card")
+    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<CommentEntity> comments;
-    @OneToMany(mappedBy = "card")
+    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<MemberCardEntity> membercards;
     @Column(name = "created_at", updatable = false)

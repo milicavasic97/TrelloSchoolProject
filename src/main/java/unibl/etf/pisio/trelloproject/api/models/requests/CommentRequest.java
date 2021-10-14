@@ -9,4 +9,6 @@ public class CommentRequest {
     private String id;
     private String text;
     private Date date;
+    private String idCard;
+    private String idMember;
 }

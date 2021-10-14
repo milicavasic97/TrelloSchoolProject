@@ -48,7 +48,7 @@ public class MemberEntity implements BaseEntity<String> {
     @Column(name = "status", nullable = true, length = -1)
     private String status;
     @Basic
-    @Column(name = "url", nullable = false, length = -1)
+    @Column(name = "url", nullable = true, length = -1)
     private String url;
     @Basic
     @Column(name = "confirmed", nullable = false)
@@ -74,14 +74,5 @@ public class MemberEntity implements BaseEntity<String> {
     @OneToMany(mappedBy = "member")
     @JsonIgnore
     private List<OrganisationInvitationEntity> organisationinvitations;
-    @Column(name = "created_at", updatable = false)
-    @CreatedDate
-    private Date createdAt;
-    @Column(name = "updated_at")
-    @LastModifiedDate
-    private Date modifiedAt;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @LastModifiedBy
-    @JoinColumn(name = "updated_by", referencedColumnName = "id")
-    private MemberEntity updatedBy;
+
 }

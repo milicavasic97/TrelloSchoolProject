@@ -16,4 +16,6 @@ public interface IMemberService extends ICrudService<String> {
     void changeMemberType(String id, ChangeMemberTypeRequest changeMemberTypeRequest);
 
     MemberDTO update(String id, MemberUpdateRequest memberUpdateRequest);
+
+    MemberDTO findByEmail(String email);
 }

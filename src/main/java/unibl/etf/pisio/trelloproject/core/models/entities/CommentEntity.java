@@ -1,6 +1,7 @@
 package unibl.etf.pisio.trelloproject.core.models.entities;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import unibl.etf.pisio.trelloproject.core.base.BaseEntity;
 
 import javax.persistence.*;
@@ -18,7 +19,8 @@ public class CommentEntity implements BaseEntity<String> {
     @Column(name = "text", nullable = false, length = -1)
     private String text;
     @Basic
-    @Column(name = "creationDate", nullable = false)
+    @Column(name = "creationDate", nullable = true)
+    @CreatedDate
     private Timestamp date;
     @ManyToOne
     @JoinColumn(name = "idCard", referencedColumnName = "id", nullable = false)

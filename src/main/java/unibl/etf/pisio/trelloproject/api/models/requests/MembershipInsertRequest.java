@@ -3,15 +3,16 @@ package unibl.etf.pisio.trelloproject.api.models.requests;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
-public class TrelloListRequest {
+public class MembershipInsertRequest {
     private String id;
     @NotBlank
-    private String name;
-//    @NotNull
-    private Integer pos;
+    private String idMember;
+    @NotBlank
+    private String idOrganisation;
     @NotBlank
     private String idBoard;
+    @NotBlank
+    private String membershipType;
 }

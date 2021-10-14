@@ -5,11 +5,9 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class BoardRequest {
-    private String id;
+public class OrganisationInvitationRequest {
     @NotBlank
-    private String name;
-    private String desc;
+    private String email;
     @NotBlank
-    private String idOrganisation;
+    private String fullName;
 }

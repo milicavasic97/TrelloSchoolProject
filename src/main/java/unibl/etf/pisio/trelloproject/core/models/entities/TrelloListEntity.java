@@ -2,6 +2,8 @@ package unibl.etf.pisio.trelloproject.core.models.entities;
 
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -36,7 +38,7 @@ public class TrelloListEntity implements BaseEntity<String> {
     @ManyToOne
     @JoinColumn(name = "idBoard", referencedColumnName = "id", nullable = false)
     private BoardEntity board;
-    @OneToMany(mappedBy = "trellolist")
+    @OneToMany(mappedBy = "trellolist", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<CardEntity> cards;
     @Column(name = "created_at", updatable = false)

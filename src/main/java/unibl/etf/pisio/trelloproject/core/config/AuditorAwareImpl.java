@@ -21,9 +21,14 @@ public class AuditorAwareImpl implements AuditorAware<MemberEntity> {
     @Override
     public Optional<MemberEntity> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof JwtUserDTO) {
+        if (authentication != null && authentication.getPrincipal().toString() !="anonymousUser") {
+            System.out.println();
+            System.out.println(authentication.getPrincipal().toString());
+            System.out.println();
             JwtUserDTO jwtUser = (JwtUserDTO) authentication.getPrincipal();
-            return Optional.of(memberService.findById(jwtUser.getId(), MemberEntity.class));
+            return jwtUser == null ?
+                    Optional.empty() :
+                    Optional.of(memberService.findById(jwtUser.getId(), MemberEntity.class));
         }
         return Optional.empty();
     }

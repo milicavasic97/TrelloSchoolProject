@@ -1,13 +1,11 @@
 package unibl.etf.pisio.trelloproject.core.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,7 +24,6 @@ import unibl.etf.pisio.trelloproject.core.security.models.AuthorizationRules;
 import unibl.etf.pisio.trelloproject.core.security.models.Rule;
 import unibl.etf.pisio.trelloproject.core.services.IJwtUserDetailsService;
 
-import java.util.Collection;
 import java.util.Collections;
 
 @EnableWebSecurity
@@ -36,16 +33,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthorizationFilter authorizationFilter;
     private final ApiKeyFilter apiKeyFilter;
     private final IJwtUserDetailsService jwtUserDetailsService;
-
-
-    private static final String[] AUTH_WHITELIST = {
-
-            // -- swagger ui
-            "/swagger-resources/**",
-            "/swagger-ui.html",
-            "/v2/api-docs",
-            "/webjars/**"
-    };
 
     public WebSecurityConfig(AuthorizationFilter _authorizationFilter, ApiKeyFilter _apiKeyFilter,
                              IJwtUserDetailsService _jwtUserDetailsService) {

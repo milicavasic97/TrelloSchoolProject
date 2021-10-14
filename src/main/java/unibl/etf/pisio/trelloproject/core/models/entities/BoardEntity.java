@@ -2,6 +2,8 @@ package unibl.etf.pisio.trelloproject.core.models.entities;
 
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -58,15 +60,18 @@ public class BoardEntity implements BaseEntity<String> {
     private String shortLink;
     @ManyToOne
     @JoinColumn(name = "idOrganisation", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     private OrganisationEntity organisation;
     @OneToMany(mappedBy = "board")
     @JsonIgnore
     private List<BoardInvitationEntity> boardinvitations;
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @JsonIgnore
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<MembershipEntity> memberships;
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @JsonIgnore
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<TrelloListEntity> trellolists;
     @Column(name = "created_at", updatable = false)
     @CreatedDate

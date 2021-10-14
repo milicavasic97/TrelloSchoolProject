@@ -38,15 +38,14 @@ public class OrganisationEntity implements BaseEntity<String> {
     @Column(name = "url", nullable = true, length = -1)
     private String url;
     @Basic
-    @Column(name = "website", nullable = false, length = -1)
+    @Column(name = "website", nullable = true, length = -1)
     private String website;
-    @OneToMany(mappedBy = "organisation")
-    @JsonIgnore
+    @OneToMany(mappedBy = "organisation", cascade = CascadeType.ALL)
     private List<BoardEntity> boards;
-    @OneToMany(mappedBy = "organisation")
+    @OneToMany(mappedBy = "organisation", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<MembershipEntity> memberships;
-    @OneToMany(mappedBy = "organisation")
+    @OneToMany(mappedBy = "organisation", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<OrganisationInvitationEntity> organisationinvitations;
     @Column(name = "created_at", updatable = false)

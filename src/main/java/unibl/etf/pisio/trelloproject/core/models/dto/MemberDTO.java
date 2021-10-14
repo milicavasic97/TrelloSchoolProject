@@ -19,6 +19,4 @@ public class MemberDTO {
     private String url;
     private Boolean confirmed;
     private String email;
-    private byte[] password;
-    private byte[] salt;
 }

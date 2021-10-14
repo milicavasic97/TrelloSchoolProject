@@ -23,7 +23,8 @@ public class CrudJpaService<E extends BaseEntity<ID>, ID extends Serializable> i
     @PersistenceContext
     private EntityManager entityManager;
 
-    public CrudJpaService(JpaRepository<E, ID> _repository, ModelMapper _modelMapper, Class<E> _entityClass) {
+    public CrudJpaService(JpaRepository<E, ID> _repository, ModelMapper _modelMapper,
+                          Class<E> _entityClass) {
         this.repository = _repository;
         this.entityClass = _entityClass;
         this.modelMapper = _modelMapper;

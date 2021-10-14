@@ -5,7 +5,7 @@
       "pattern": "/state",
       "roles": [
         "ADMIN",
-        "USER"
+        "NORMAL"
       ]
     },
     {
@@ -13,7 +13,7 @@
       "pattern": "/organisations/**",
       "roles": [
         "ADMIN",
-        "USER"
+        "NORMAL"
       ]
     },
     {
@@ -21,7 +21,7 @@
       "pattern": "/members/**",
       "roles": [
         "ADMIN",
-        "USER"
+        "NORMAL"
       ]
     },
     {
@@ -29,7 +29,7 @@
       "pattern": "/boards/**",
       "roles": [
         "ADMIN",
-        "USER"
+        "NORMAL"
       ]
     },
     {
@@ -37,7 +37,15 @@
       "pattern": "/lists/**",
       "roles": [
         "ADMIN",
-        "USER"
+        "NORMAL"
+      ]
+    },
+    {
+      "methods": [],
+      "pattern": "/cards/**",
+      "roles": [
+        "ADMIN",
+        "NORMAL"
       ]
     }
   ]

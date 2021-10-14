@@ -18,5 +18,7 @@ public class OrganisationInvitationEntity implements BaseEntity<String> {
     @ManyToOne
     @JoinColumn(name = "idOrganisation", referencedColumnName = "id", nullable = false)
     private OrganisationEntity organisation;
+    @Column(name ="accepted")
+    private Boolean accepted;
 
 }

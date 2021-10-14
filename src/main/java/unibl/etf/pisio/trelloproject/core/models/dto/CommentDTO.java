@@ -12,5 +12,6 @@ public class CommentDTO {
     private String id;
     private String text;
     private Date date;
+    private MemberDTO member;
 
 }
